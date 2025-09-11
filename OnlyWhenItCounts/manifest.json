@@ -1,7 +1,7 @@
 ﻿{
   "Name": "OnlyWhenItCounts",
   "Author": "Trapyy",
-  "Version": "1.0.2",
+  "Version": "1.0.5",
   "Description": "Stop wasting stamina! This mod ensures stamina is only used when your tools actually work.",
   "UniqueID": "Trapyy.OnlyWhenItCounts",
   "EntryDll": "OnlyWhenItCounts.dll",

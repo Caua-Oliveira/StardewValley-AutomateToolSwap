@@ -287,7 +287,7 @@ public class Detects
         return false;
     }
 
-    // --- START: New methods for Item Extensions ---
+
     public static bool ModdedObjectRequiresTool(Vector2 tile, string requiredToolName)
     {
         if (ModEntry.ItemExtensionsAPI == null)
@@ -301,7 +301,7 @@ public class Detects
             bool foundTool = ModEntry.ItemExtensionsAPI.GetBreakingTool(obj.ItemId, false, out string toolNameFromApi);
             if (foundTool && toolNameFromApi == requiredToolName)
             {
-                return true; // ItemExtensions API confirms this tool is needed
+                return true; 
             }
         }
         return false;
@@ -323,7 +323,7 @@ public class Detects
                 {
                     foreach (var pair in resourceClump.modDataForSerialization.Pairs)
                     {
-                        if (pair.Key.ToLower().Contains("clumpid")) // Key from your example
+                        if (pair.Key.ToLower().Contains("clumpid"))
                         {
                             clumpSpecificItemId = pair.Value;
                             break;
@@ -333,15 +333,14 @@ public class Detects
 
                 if (!string.IsNullOrEmpty(clumpSpecificItemId))
                 {
-                    // First, verify if the API considers this item ID a clump.
                     bool isActualClump = ModEntry.ItemExtensionsAPI.IsClump(clumpSpecificItemId);
                     if (isActualClump)
                     {
-                        // Now, get the breaking tool for this clump.
+
                         bool foundTool = ModEntry.ItemExtensionsAPI.GetBreakingTool(clumpSpecificItemId, true, out string toolNameFromApi);
                         if (foundTool && toolNameFromApi == requiredToolName)
                         {
-                            return true; // ItemExtensions API confirms this tool is needed for this clump
+                            return true; 
                         }
                         
                     }
