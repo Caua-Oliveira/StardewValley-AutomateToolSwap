@@ -56,7 +56,7 @@ public class TerrainFeaturesInteractionRules
             }
             // If the player is holding a tapper or fertilizer tool, do not change.
             if (!ModEntry.Config.AxeForTrees || !currentItemIsNull &&
-               (currentItemName == "Tapper" || currentItemName == "Tree Fertilizer"))
+               (currentItemName == "Tapper" || currentItemName == "Heavy Tapper" ||currentItemName == "Tree Fertilizer"))
                 return false;
             // If the tree is grown (or config does not ignore growing trees), switch to axe.
             if (!(tree.growthStage.Value < Tree.treeStage && ModEntry.Config.IgnoreGrowingTrees))

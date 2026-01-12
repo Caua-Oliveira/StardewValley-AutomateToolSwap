@@ -79,7 +79,6 @@ internal class ModConfig
     /****
     ** Machines Page Options
     ****/
-    public bool OresForFurnaces { get; set; } = true;
     public bool MilkForCheesePress { get; set; } = true;
     public bool EggsForMayoMachine { get; set; } = true;
     public bool TrashForRecycling { get; set; } = true;
@@ -91,7 +90,7 @@ internal class ModConfig
     public bool SwapForSeedMaker { get; set; } = false;
     public bool BaitForCrabPot { get; set; } = true;
     public bool OresForFurnace { get; set; } = true;
-    public bool TruffleForOilMaker { get; set; } = true;
+    public bool SwapForOilMaker { get; set; } = true;
     public string SwapForKegs { get; set; } = "None";
     public string SwapForPreservesJar { get; set; } = "None";
     public string SwapForDehydrator { get; set; } = "None";

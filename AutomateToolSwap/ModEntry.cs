@@ -57,7 +57,6 @@ public class ModEntry : Mod
             return;
 
         Farmer player = Game1.player;
-
         //Toggles the mod on and off
         if (Config.ToggleKey.JustPressed())
         {

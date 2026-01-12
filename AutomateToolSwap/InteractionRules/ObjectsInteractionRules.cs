@@ -114,7 +114,7 @@ public class ObjectsInteractionRules
         {
             case "Furnace":
             case "Heavy Furnace":
-                if (ModEntry.Config.OresForFurnaces && currentItemCantBreak &&
+                if (ModEntry.Config.OresForFurnace && currentItemCantBreak &&
                    (currentItemIsNull || !currentItemName.Contains("Ore")))
                 {
                     InventoryHandler.SetItem(player, "Minerals", "Ore");
@@ -220,9 +220,9 @@ public class ObjectsInteractionRules
                 }
                 return true;
             case "Oil Maker":
-                if (currentItemCantBreak && ModEntry.Config.TruffleForOilMaker)
+                if (currentItemCantBreak && ModEntry.Config.SwapForOilMaker)
                 {
-                    InventoryHandler.SetItem(player, "Oil Maker", "Truffle", aux: -17);
+                    InventoryHandler.SetItem(player, "Oil Maker");
                 }
                 return true;
             case "Geode Crusher":

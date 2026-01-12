@@ -212,7 +212,7 @@
   "config.SwapForDehydrator.tooltip": "Swaps to first fruit or mushroom when clicking on Dehydrator",
 
   "config.SwapForOilMaker.name": "Swap for Oil Maker",
-  "config.SwapForOilMaker.tooltip": "Swaps to truffle when clicking on Oil Maker",
+  "config.SwapForOilMaker.tooltip": "Swaps to truffle/sunflower/sunflower seeds when clicking on Oil Maker",
 
   "config.SwapForGeodeCrusher.name": "Swap for Geode Crusher",
   "config.SwapForGeodeCrusher.tooltip": "Swaps to first geode in your inventory on Geode Crusher",

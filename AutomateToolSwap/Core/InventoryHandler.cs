@@ -127,6 +127,30 @@ internal class InventoryHandler
                 }
                 return;
 
+            case "Oil Maker":
+                {
+                    bool isOilMakerIngredient(Item it) => it is not null &&
+                                                          ((it.Name == "Truffle" && it.Category == -17) ||
+                                                           (it.Name == "Sunflower" && it.Category == -80) ||
+                                                           (it.Name == "Sunflower Seeds" && it.Category == -74) ||
+                                                           (it.Name == "Corn" && it.Category == -75));
+
+                    // If the player is already holding a valid item, do nothing.
+                    if (isOilMakerIngredient(player.CurrentItem))
+                        return;
+
+                    for (int i = 0; i < player.maxItems.Value; i++)
+                    {
+                        if (isOilMakerIngredient(items[i]))
+                        {
+                            if (player.CurrentToolIndex != i)
+                                _ = ModEntry.inventoryIndexMemory.SwitchIndex(i, player);
+                            return;
+                        }
+                    }
+                    return;
+                }
+
             default:
                 // Handles any other item
                 for (int i = 0; i < player.maxItems.Value; i++)

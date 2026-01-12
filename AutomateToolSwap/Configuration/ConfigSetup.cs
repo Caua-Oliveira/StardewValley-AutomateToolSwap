@@ -403,8 +403,8 @@ internal class ConfigSetup
         configMenu.AddBoolOption(ModManifest,
             name: () => i18n.Get("config.SwapForOilMaker.name"),
             tooltip: () => i18n.Get("config.SwapForOilMaker.tooltip"),
-            getValue: () => Config.TruffleForOilMaker,
-            setValue: isEnabled => Config.TruffleForOilMaker = isEnabled
+            getValue: () => Config.SwapForOilMaker,
+            setValue: isEnabled => Config.SwapForOilMaker = isEnabled
         );
 
         configMenu.AddBoolOption(ModManifest,
