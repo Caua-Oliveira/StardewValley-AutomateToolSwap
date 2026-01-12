@@ -67,11 +67,47 @@ public class ModEntry : Mod
                 Game1.addHUDMessage(new HUDMessage("AutomateToolSwap " + i18n.Get("mod.Disabled"), 2));
         }
 
+
+        // Logic to Add/Remove items from the blacklist
+        if (Config.BlacklistKey.JustPressed())
+        {
+            Item? currentItem = player.CurrentItem;
+
+            if (currentItem != null)
+            {
+                // Use QualifiedItemId to be precise
+                string itemId = currentItem.QualifiedItemId;
+
+                if (Config.ItemBlacklist.Contains(itemId))
+                {
+                    Config.ItemBlacklist.Remove(itemId);
+                    Game1.addHUDMessage(new HUDMessage($"Removed {currentItem.DisplayName} from blacklist", 2));
+                }
+                else
+                {
+                    Config.ItemBlacklist.Add(itemId);
+                    Game1.addHUDMessage(new HUDMessage($"Added {currentItem.DisplayName} to blacklist", 2));
+                }
+
+                Helper.WriteConfig(Config);
+            }
+            else
+            {
+                Game1.addHUDMessage(new HUDMessage("No item held to add/remove", 3));
+            }
+
+            return; 
+        }
+       
+
         // Swaps to the last used item
         if (Config.LastToolKey.JustPressed() && player.canMove && Config.Enabled)
             inventoryIndexMemory.GoToLastIndex(player);
 
         if (!SwapButtonPressed(e) || !Config.Enabled || !(player.canMove))
+            return;
+
+        if (IsHoldingBlacklistItem(Game1.player))
             return;
 
         if (Config.RequireClick)
@@ -177,6 +213,16 @@ public class ModEntry : Mod
                 ItemSwapCoordinator.TrySwapAll(currentLocation, toolLocation, player);
 
         }
+    }
+
+    /// Checks if the player is currently holding an item defined in the ItemBlacklist.
+    private bool IsHoldingBlacklistItem(Farmer player)
+    {
+        if (player.CurrentItem == null)
+            return false;
+
+        // Check if the current item's Qualified ID exists in the config list
+        return Config.ItemBlacklist.Contains(player.CurrentItem.QualifiedItemId);
     }
 
     //Checks if the swap button is pressed

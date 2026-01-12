@@ -11,6 +11,8 @@ internal class ModConfig
     public bool UseDifferentSwapKey { get; set; } = false;
     public KeybindList SwapKey { get; set; } = KeybindList.Parse("MouseLeft");
     public KeybindList LastToolKey { get; set; } = KeybindList.Parse("MouseMiddle");
+    public KeybindList BlacklistKey { get; set; } = KeybindList.Parse("LeftControl + LeftShift + L");
+    public List<string> ItemBlacklist { get; set; } = new();
     public string DetectionMethod { get; set; } = "Cursor";
     public bool RequireClick { get; set; } = true;
     public bool AutoReturnToLastTool { get; set; } = false;

@@ -5,8 +5,10 @@
   /***
 ** NEW
 ***/
-  "config.pickaxeForTilledSoil.name": "Pickaxe for tilled soil",
-  "config.pickaxeForTilledSoil.tooltip": "Automatically switch to Pickaxe when clicking on tilled soil (without a seed in hand).",
+  "config.blacklistKey.name": "Blacklist Keybind",
+  "config.blacklistKey.tooltip": "The keybind to add/remove the currently held item to/from the blacklist. When holding a blacklisted item, the mod will not auto swap  to anything.",
+
+
 
   /***
 ** MAIN SETTINGS
@@ -80,6 +82,9 @@
 
   "config.pickaxeForFloorTile.name": "Pickaxe For Floor Tile",
   "config.pickaxeForFloorTile.tooltip": "Swaps to pickaxe when clicking in a floor tile",
+
+  "config.pickaxeForTilledSoil.name": "Pickaxe for tilled soil",
+  "config.pickaxeForTilledSoil.tooltip": "Automatically switch to Pickaxe when clicking on tilled soil (without a seed in hand).",
 
   /***
 ** AXE PAGE

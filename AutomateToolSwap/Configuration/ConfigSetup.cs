@@ -92,6 +92,13 @@ internal class ConfigSetup
             getValue: () => Config.AutoReturnToLastTool,
             setValue: isEnabled => Config.AutoReturnToLastTool = isEnabled
         );
+
+        configMenu.AddKeybindList(ModManifest,
+            name: () => i18n.Get("config.BlacklistKey.name"),
+            tooltip: () => i18n.Get("config.BlacklistKey.tooltip"),
+            getValue: () => Config.BlacklistKey,
+            setValue: keybinds => Config.BlacklistKey = keybinds
+        );
         configMenu.AddPage(ModManifest, string.Empty, () => i18n.Get("config.goBack"));
 
         /****

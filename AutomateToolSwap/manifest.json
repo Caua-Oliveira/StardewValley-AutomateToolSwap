@@ -1,7 +1,7 @@
 {
   "Name": "AutomateToolSwap",
   "Author": "Trapyy",
-  "Version": "1.5.8",
+  "Version": "1.5.9",
   "Description": "Selects the correct tool or item for you whenever you click something that requires it",
   "UniqueID": "Trapyy.AutomatetoolSwap",
   "EntryDll": "AutomateToolSwap.dll",
