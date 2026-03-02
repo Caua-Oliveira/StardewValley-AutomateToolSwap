@@ -271,17 +271,6 @@ public class DidWork
         return false;
     }
 
-    public static bool FishingRod(Vector2 tile)
-    {
-        if (Detects.WaterPlaces(tile, "Rod"))
-        {
-            Monitor.Log("Detected WaterPlace with FishingRod", LogLevel.Trace);
-            return true;
-        }
-
-        return false;
-    }
-
     public static bool WateringCan(Vector2 tile)
     {
         if (Detects.WateredSoil(tile))

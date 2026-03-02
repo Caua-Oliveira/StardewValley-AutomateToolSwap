@@ -264,7 +264,17 @@ public class Detects
     {
         bool IsWater(GameLocation loc, Vector2 t)
         {
+            // For some reason the water in the submarine is not detected by normal means, so i hardcoded it to check the triangle the water is in
+            if (loc is StardewValley.Locations.Submarine)
+            {
+                // x=8, y=6, width=14, height=7
+                Rectangle water_rectangle = new Rectangle(8, 6, 14, 7);
+
+                if (water_rectangle.Contains((int)t.X, (int)t.Y))
+                    return true;
+            }
             return loc.doesTileHaveProperty((int)t.X, (int)t.Y, "Water", "Back") != null;
+
         }
         bool IsWaterSource(GameLocation loc, Vector2 t)
         {

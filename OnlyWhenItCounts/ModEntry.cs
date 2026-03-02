@@ -1,26 +1,34 @@
-﻿using StardewModdingAPI;
+﻿using HarmonyLib; // <-- Add this
+using Microsoft.Xna.Framework;
+using StardewModdingAPI;
 using StardewModdingAPI.Events;
+using StardewModdingAPI.Utilities;
 using StardewValley;
 using StardewValley.Tools;
-using Microsoft.Xna.Framework;
 
 namespace OnlyWhenItCounts
 {
     public class ModEntry : Mod
     {
-        private bool pendingRestore;
-        private bool wasUsingTool;
-        private float savedStamina;
-        private int savedWaterLeft;
-        private ModConfig Config;
+        private readonly PerScreen<bool> pendingRestore = new();
+        private readonly PerScreen<bool> wasUsingTool = new();
+        private readonly PerScreen<float> savedStamina = new();
+        private readonly PerScreen<int> savedWaterLeft = new();
+
+        public static ModConfig Config { get; private set; }
         internal static IItemExtensionsApi? ItemExtensionsAPI;
 
         public override void Entry(IModHelper helper)
         {
             DidWork.SetMonitor(this.Monitor);
-            this.Config = this.Helper.ReadConfig<ModConfig>();
+            Config = this.Helper.ReadConfig<ModConfig>();
+
             helper.Events.GameLoop.UpdateTicked += OnUpdateTicked;
             helper.Events.GameLoop.GameLaunched += OnGameLaunched;
+
+            // Initialize Harmony
+            var harmony = new Harmony(this.ModManifest.UniqueID);
+            harmony.PatchAll();
         }
 
         private void OnGameLaunched(object sender, GameLaunchedEventArgs e)
@@ -32,24 +40,24 @@ namespace OnlyWhenItCounts
 
             configMenu.Register(
                 mod: this.ModManifest,
-                reset: () => this.Config = new ModConfig(),
-                save: () => this.Helper.WriteConfig(this.Config)
+                reset: () => Config = new ModConfig(),
+                save: () => this.Helper.WriteConfig(Config)
             );
 
             configMenu.AddBoolOption(
                 mod: this.ModManifest,
                 name: () => "Enable Mod",
                 tooltip: () => "Enable or disable the mod.",
-                getValue: () => this.Config.Enabled,
-                setValue: value => this.Config.Enabled = value
+                getValue: () => Config.Enabled,
+                setValue: value => Config.Enabled = value
             );
 
             configMenu.AddBoolOption(
                 mod: this.ModManifest,
                 name: () => "Return Water To Watering Can",
                 tooltip: () => "Returns the water wasted when the watering can doesn't work.",
-                getValue: () => this.Config.ReturnWaterToWateringCan,
-                setValue: value => this.Config.ReturnWaterToWateringCan = value
+                getValue: () => Config.ReturnWaterToWateringCan,
+                setValue: value => Config.ReturnWaterToWateringCan = value
             );
         }
 
@@ -65,7 +73,7 @@ namespace OnlyWhenItCounts
                 return;
 
             // 1) Tool swing started this tick
-            if (!wasUsingTool && isSwinging)
+            if (!this.wasUsingTool.Value && isSwinging)
             {
                 bool didWork = false;
 
@@ -88,40 +96,42 @@ namespace OnlyWhenItCounts
                         didWork = DidWork.Hoe(targetTile);
                         break;
                     case FishingRod _:
-                        didWork = DidWork.FishingRod(targetTile);
+                        // Force didWork to true so the UpdateTicked loop ignores it.
+                        // Harmony patch will handle the actual stamina refunding!
+                        didWork = true;
                         break;
                     case WateringCan wateringCan:
                         didWork = DidWork.WateringCan(targetTile);
                         if (!didWork)
-                            savedWaterLeft = wateringCan.WaterLeft;
+                            this.savedWaterLeft.Value = wateringCan.WaterLeft;
                         break;
                 }
 
                 if (didWork)
                 {
-                    wasUsingTool = true;
+                    this.wasUsingTool.Value = true;
                     return;
                 }
 
-                savedStamina = player.stamina;
-                pendingRestore = true;
+                this.savedStamina.Value = player.stamina;
+                this.pendingRestore.Value = true;
             }
 
             // 2) Tool swing ended this tick
-            if (pendingRestore && wasUsingTool && !isSwinging)
+            if (this.pendingRestore.Value && this.wasUsingTool.Value && !isSwinging)
             {
-                player.stamina = savedStamina;
+                player.stamina = this.savedStamina.Value;
 
                 if (player.CurrentTool is WateringCan wateringCan && Config.ReturnWaterToWateringCan)
                 {
-                    wateringCan.WaterLeft = savedWaterLeft;
+                    wateringCan.WaterLeft = this.savedWaterLeft.Value;
                 }
 
-                pendingRestore = false;
+                this.pendingRestore.Value = false;
             }
 
             // 3) Save tool usage state for next tick
-            wasUsingTool = isSwinging;
+            this.wasUsingTool.Value = isSwinging;
         }
     }
 }
